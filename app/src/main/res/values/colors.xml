@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="buttonEnableTrue">#03DDC9</color>
+    <color name="buttonEnableFalse">#9D9FA1</color>
+    <color name="textColor">#02514A</color>
+    <color name="statusBarColor">#0CAFA0</color>
+    <color name="phoneColor">#0486C1</color>
+</resources>

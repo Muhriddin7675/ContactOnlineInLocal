@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <ImageView
+        android:id="@+id/buttonBack"
+        style="@style/BackButton"
+        android:background="?android:selectableItemBackgroundBorderless"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/edit_contact"
+        android:textColor="@color/textColor"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/buttonBack"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/buttonBack" />
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputFirstName"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        app:layout_constraintBottom_toTopOf="@id/inputLastName"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.2"
+        app:layout_constraintVertical_chainStyle="packed">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editInputFirstName"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="@string/first_name"
+            android:inputType="textCapSentences"
+            android:lines="1"
+            android:maxLength="20" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputLastName"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintBottom_toTopOf="@id/inputPhone"
+        app:layout_constraintTop_toBottomOf="@id/inputFirstName">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editInputLastName"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="Last name"
+            android:inputType="textCapSentences"
+            android:lines="1"
+            android:maxLength="20" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/inputPhone"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/inputLastName">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editInputPhone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="@string/phone"
+            android:inputType="phone"
+            android:lines="1"
+            android:maxLength="13" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/buttonEdit"
+        style="@style/AppCompatButton"
+        android:layout_marginBottom="28dp"
+        android:enabled="false"
+        android:text="@string/save"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+
+    <FrameLayout
+        android:id="@+id/frameLoading"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="28dp"
+        android:background="@drawable/bg_btn"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <androidx.core.widget.ContentLoadingProgressBar
+            android:id="@+id/progress"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center" />
+    </FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
