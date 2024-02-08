@@ -70,7 +70,9 @@
         tools:layout="@layout/screen_login">
         <action
             android:id="@+id/action_loginScreen_to_contactScreen"
-            app:destination="@id/contactScreen" />
+            app:destination="@id/contactScreen"
+            app:popUpTo="@id/loginScreen"
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_loginScreen_to_registerScreen"
             app:destination="@id/registerScreen" />
@@ -91,6 +93,8 @@
         tools:layout="@layout/screen_verify">
         <action
             android:id="@+id/action_verifyScreen_to_contactScreen"
-            app:destination="@id/contactScreen" />
+            app:destination="@id/contactScreen"
+            app:popUpTo="@id/loginScreen"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>

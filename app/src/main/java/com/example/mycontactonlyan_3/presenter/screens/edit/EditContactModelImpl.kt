@@ -44,7 +44,6 @@ class EditContactModelImpl @Inject constructor(
         ).onEach {
             progressLiveData.value = true
             it.onSuccess {
-
                 progressLiveData.value = false
                 if (networkStatusValidator.hasNetwork) messageLiveData.value = "Success !"
                 else messageLiveData.value = "Save in local !"

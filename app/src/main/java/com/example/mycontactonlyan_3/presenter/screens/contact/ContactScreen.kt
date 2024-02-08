@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.mycontactonlyan_3.R
 import com.example.mycontactonlyan_3.data.model.ContactUIData
+import com.example.mycontactonlyan_3.data.model.MyShared
 import com.example.mycontactonlyan_3.databinding.ScreenContactBinding
 import com.example.mycontactonlyan_3.presenter.adapter.ContactAdapter
 import com.example.mycontactonlyan_3.presenter.dialog.BottomSheetDialog
@@ -51,6 +52,7 @@ class ContactScreen : Fragment(R.layout.screen_contact) {
         binding.btnAdd.setOnClickListener { viewModel.openAddContactScreen() }
 
         binding.logAuth.setOnClickListener {
+            MyShared.setToken("1")
             findNavController().navigate(R.id.action_contactScreen_to_loginScreen)
         }
 
