@@ -96,5 +96,8 @@
             app:destination="@id/contactScreen"
             app:popUpTo="@id/loginScreen"
             app:popUpToInclusive="true" />
+        <argument
+            android:name="phone"
+            app:argType="string" />
     </fragment>
 </navigation>

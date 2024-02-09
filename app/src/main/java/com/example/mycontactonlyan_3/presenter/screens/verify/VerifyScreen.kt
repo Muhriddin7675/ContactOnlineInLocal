@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.mycontactonlyan_3.R
 import com.example.mycontactonlyan_3.databinding.ScreenVerifyBinding
@@ -25,16 +26,15 @@ import ru.ldralighieri.corbind.widget.textChanges
 class VerifyScreen : Fragment(R.layout.screen_verify) {
     private val binding by viewBinding(ScreenVerifyBinding::bind)
     private val viewModel: VerifyViewModel by viewModels<VerifyViewModelImpl>()
-
+    private val navArgs:VerifyScreenArgs by navArgs()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         combine(
-            binding.editPhone.textChanges().map { it.length == 13 && it.startsWith("+998") },
             binding.editCode.textChanges().map { it.length == 6 },
-            transform = { phone, smsCode -> phone && smsCode }
+            transform = {smsCode -> smsCode}
         ).onEach {
-            binding.btnSubmit.isEnabled = it
+            binding.btnSubmit.isEnabled = it[0]
         }.flowWithLifecycle(lifecycle)
             .launchIn(lifecycleScope)
 
@@ -68,7 +68,7 @@ class VerifyScreen : Fragment(R.layout.screen_verify) {
         viewModel.noConnection()
         binding.btnSubmit.setOnClickListener {
             viewModel.noConnection()
-            viewModel.verify(binding.editPhone.text(), binding.editCode.text().toInt())
+            viewModel.verify(navArgs.phone, binding.editCode.text().toInt())
         }
         binding.refreshBtn.setOnClickListener {
             viewModel.noConnection()

@@ -15,51 +15,31 @@
         android:textStyle="bold"
         android:layout_marginBottom="12dp"
         android:textSize="60sp"
-
         />
     <ImageView
         android:id="@+id/image_contact"
         android:layout_width="130dp"
         android:layout_height="130dp"
         android:src="@drawable/ic_contact"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/btn_submit"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/inputPhone"
-        app:layout_constraintVertical_bias="0.74"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.435"
         app:tint="#0CBAAA" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/inputPhone"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed"
-        app:layout_constraintBottom_toTopOf="@id/inputCode"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp"
-        app:layout_constraintVertical_bias="0.6"
-        android:layout_marginTop="16dp">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editPhone"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="@string/phone_number"
-            android:inputType="phone"
-            android:lines="1"
-            android:maxLength="13" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/inputCode"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/inputPhone"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="24dp"
-        android:layout_marginTop="16dp">
+        app:layout_constraintVertical_bias="0.2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/image_contact">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editCode"
@@ -80,9 +60,9 @@
         android:background="@drawable/bg_btn"
         android:elevation="150dp"
         android:text="@string/submit"
-        android:textSize="16sp"
         android:textAllCaps="false"
         android:textColor="#fff"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

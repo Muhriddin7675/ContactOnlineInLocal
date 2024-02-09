@@ -31,11 +31,9 @@ class ContactRepositoryImpl @Inject constructor(
     private val networkStatusValidator: NetworkStatusValidator,
 ) : ContactRepository {
 
-
     private fun token(): String = MyShared.getToken()
 
     override fun getAllContact(): Flow<ResultData<List<ContactUIData>>> = flowResponse {
-
 
         val remoteList = api.getAllContact(token())
         val list = margeDate(remoteList.body() ?: emptyList(), contactDao.getAllContactLocal())

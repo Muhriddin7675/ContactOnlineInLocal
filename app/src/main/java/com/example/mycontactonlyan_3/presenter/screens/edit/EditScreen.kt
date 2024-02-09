@@ -58,7 +58,8 @@ class EditScreen : Fragment(R.layout.screen_contact_edit) {
             binding.editInputLastName.textChanges().map { it.length > 3 },
             binding.editInputPhone.textChanges().map { it.length == 13 && it.startsWith("+998") },
             transform = { firstName, lastName, phone -> firstName && lastName && phone }
-        ).onEach { binding.buttonEdit.isEnabled = it }.flowWithLifecycle(lifecycle)
+        ).onEach {
+            binding.buttonEdit.isEnabled = it }.flowWithLifecycle(lifecycle)
             .launchIn(lifecycleScope)
         binding.buttonBack.setOnClickListener {
             viewModel.closeScreen()

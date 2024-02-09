@@ -35,7 +35,7 @@ class RegisterViewModelImpl @Inject constructor(
                 it.onSuccess {
                     viewModelScope.launch {
                         progressLiveData.value = false
-                        navigator.navigateTo(RegisterScreenDirections.actionRegisterScreenToVerifyScreen())
+                        navigator.navigateTo(RegisterScreenDirections.actionRegisterScreenToVerifyScreen(phone))
                     }
                 }
 
