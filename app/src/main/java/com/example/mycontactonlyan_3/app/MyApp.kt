@@ -11,6 +11,7 @@ class MyApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
+
         Timber.plant(Timber.DebugTree())
         MyShared.init(this)
 //        ApiClient.init(this)

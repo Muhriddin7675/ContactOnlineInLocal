@@ -27,7 +27,6 @@ import javax.inject.Singleton
 @Singleton
 class ContactRepositoryImpl @Inject constructor(
     private val contactDao: ContactDao,
-    private val gson: Gson,
     private val api: ContactApi,
     private val networkStatusValidator: NetworkStatusValidator,
 ) : ContactRepository {
@@ -41,10 +40,7 @@ class ContactRepositoryImpl @Inject constructor(
         val remoteList = api.getAllContact(token())
         val list = margeDate(remoteList.body() ?: emptyList(), contactDao.getAllContactLocal())
         emit(remoteList.toResultData { list })
-
-
     }
-
 
     override fun loginContact(loginRequest: LoginRequest): Flow<ResultData<TokenResponse>> =
         flowResponse {

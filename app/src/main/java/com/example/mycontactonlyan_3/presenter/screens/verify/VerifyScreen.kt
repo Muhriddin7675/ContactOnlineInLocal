@@ -6,45 +6,51 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.mycontactonlyan_3.R
 import com.example.mycontactonlyan_3.databinding.ScreenVerifyBinding
+import com.example.mycontactonlyan_3.utils.showToast
 import com.example.mycontactonlyan_3.utils.text
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
+import ru.ldralighieri.corbind.widget.textChanges
 
 @AndroidEntryPoint
 class VerifyScreen : Fragment(R.layout.screen_verify) {
     private val binding by viewBinding(ScreenVerifyBinding::bind)
-    private val viewModel by viewModels<VerifyViewModelImpl>()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel.openContactScreen.observe(this, openContactScreenObserver)
-        viewModel.noConnection.observe(this, noConnectionObserver)
-    }
+    private val viewModel: VerifyViewModel by viewModels<VerifyViewModelImpl>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.noConnection()
-        viewModel.progressLiveData.observe(viewLifecycleOwner, progressObserver)
 
-        binding.btnSubmit.setOnClickListener {
-            viewModel.verify(binding.editPhone.text(), binding.editCode.text().toInt())
-        }
-        binding.refreshBtn.setOnClickListener {
-            viewModel.noConnection()
-        }
-    }
+        combine(
+            binding.editPhone.textChanges().map { it.length == 13 && it.startsWith("+998") },
+            binding.editCode.textChanges().map { it.length == 6 },
+            transform = { phone, smsCode -> phone && smsCode }
+        ).onEach {
+            binding.btnSubmit.isEnabled = it
+        }.flowWithLifecycle(lifecycle)
+            .launchIn(lifecycleScope)
 
-    private val openContactScreenObserver = Observer<Unit> {
-        findNavController().navigate(R.id.action_verifyScreen_to_contactScreen)
-    }
-    private val noConnectionObserver = Observer<Boolean> {
-        binding.noConnection.isVisible = it
-    }
-    private val progressObserver = Observer<Boolean> {
-        if (it) {
+
+        viewModel.errorMessage.onEach {
+            showToast(it)
+        }.launchIn(lifecycleScope)
+
+
+        viewModel.noConnection.onEach {
+            binding.noConnection.isVisible = it
+        }.flowWithLifecycle(lifecycle)
+            .launchIn(lifecycleScope)
+
+
+        viewModel.progressLiveData.onEach {
             if (it) {
                 binding.btnSubmit.visibility = View.INVISIBLE
                 binding.frameLoading.isVisible = true
@@ -54,7 +60,18 @@ class VerifyScreen : Fragment(R.layout.screen_verify) {
                 binding.frameLoading.isVisible = false
                 binding.progress.hide()
             }
+        }.flowWithLifecycle(lifecycle)
+            .launchIn(lifecycleScope)
+
+
+
+        viewModel.noConnection()
+        binding.btnSubmit.setOnClickListener {
+            viewModel.noConnection()
+            viewModel.verify(binding.editPhone.text(), binding.editCode.text().toInt())
+        }
+        binding.refreshBtn.setOnClickListener {
+            viewModel.noConnection()
         }
     }
-
 }

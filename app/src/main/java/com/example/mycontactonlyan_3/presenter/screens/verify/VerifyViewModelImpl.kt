@@ -9,52 +9,50 @@ import com.example.mycontactonlyan_3.data.model.MyShared
 import com.example.mycontactonlyan_3.data.sourse.remote.request.VerifyUserRequest
 import com.example.mycontactonlyan_3.domain.ContactRepository
 import com.example.mycontactonlyan_3.domain.ContactRepositoryImpl
+import com.example.mycontactonlyan_3.navigatiion.AppNavigator
 import com.example.mycontactonlyan_3.utils.NetworkStatusValidator
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class VerifyViewModelImpl @Inject constructor(
     private val repositoryImpl: ContactRepository,
-    private val networkStatusValidator: NetworkStatusValidator
+    private val networkStatusValidator: NetworkStatusValidator,
+    private val navigator: AppNavigator
 ) : VerifyViewModel,
     ViewModel() {
-
-    override val progressLiveData = MutableLiveData<Boolean>()
-
-    override val errorMessage = MutableLiveData<String>()
-
-    override val noConnection = MutableLiveData<Boolean>()
-
-    override val openContactScreen = MutableLiveData<Unit>()
-
-
+    override val progressLiveData = MutableStateFlow<Boolean>(false)
+    override val noConnection = MutableStateFlow<Boolean>(false)
+    override val errorMessage = MutableSharedFlow<String>()
     override fun verify(phone: String, code: Int) {
-        if (networkStatusValidator.hasNetwork) {
-            val verify = VerifyUserRequest(phone, code)
-            progressLiveData.value = true
-            repositoryImpl.verifyContact(verify).onEach {
-                when (it) {
-                    is ResultData.Success -> {
-                        progressLiveData.value = false
-                        MyShared.setToken(it.data.token)
-                        openContactScreen.value = Unit
-                    }
 
-                    is ResultData.Failure -> {
-                        progressLiveData.value = false
-                        errorMessage.value = it.message
-                    }
+        val verify = VerifyUserRequest(phone, code)
+        progressLiveData.value = true
+        repositoryImpl.verifyContact(verify).onEach { it ->
+            it.onSuccess {
+                MyShared.setToken(it.token)
+                viewModelScope.launch {
+                    progressLiveData.value = false
+                    navigator.navigateTo(VerifyScreenDirections.actionVerifyScreenToContactScreen())
                 }
-            }.launchIn(viewModelScope)
-
-        } else {
-            noConnection.value = !networkStatusValidator.hasNetwork
-        }
+            }
+            it.onFailure {
+                viewModelScope.launch {
+                    progressLiveData.value = false
+                    errorMessage.emit(it)
+                }
+            }
+        }.launchIn(viewModelScope)
     }
-    fun noConnection() {
+
+    override fun noConnection() {
         noConnection.value = !networkStatusValidator.hasNetwork
     }
 }

@@ -1,14 +1,14 @@
 package com.example.mycontactonlyan_3.presenter.screens.login
 
-import androidx.lifecycle.LiveData
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.StateFlow
 
 interface LoginViewModel {
-    val openRegisterScreenLiveData:LiveData<Unit>
-    val openContactScreenLiveData:LiveData<Unit>
-    val progressLiveData:LiveData<Boolean>
-    val refreshInternetConnection:LiveData<Boolean>
-    val loginBool:LiveData<Boolean>
-    val errorMessage:LiveData<String>
+    val progressLiveData:StateFlow<Boolean>
+    val refreshInternetConnection:StateFlow<Boolean>
+    val errorMessage:Flow<String>
 
     fun login(phone:String,password:String)
+    fun networkConnect()
+    fun openRegisterScreen()
 }

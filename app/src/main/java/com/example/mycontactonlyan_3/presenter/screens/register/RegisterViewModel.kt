@@ -1,14 +1,13 @@
 package com.example.mycontactonlyan_3.presenter.screens.register
 
-import android.health.connect.datatypes.BloodPressureRecord.BodyPosition
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.StateFlow
 
 interface RegisterViewModel {
-    val openVerifyScreen : LiveData<Unit>
-    val messageError:LiveData<String>
-    val noInternetConnection:LiveData<Boolean>
-    val progressLiveData :LiveData<Boolean>
+    val messageError:Flow<String>
+    val noInternetConnection:StateFlow<Boolean>
+    val progressLiveData :StateFlow<Boolean>
 
     fun register(firstName:String,lastName:String,phone:String,password:String)
+    fun internetConnection()
 }
